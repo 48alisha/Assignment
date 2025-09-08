@@ -140,7 +140,6 @@ body {
   background-color: #000; /* full black */
   color: #fff; /* white text for visibility */
 }
-<<<<<<< HEAD
 
 @keyframes spin-slow {
   from {
@@ -154,5 +153,3 @@ body {
 .animate-spin-slow {
   animation: spin-slow 6s linear infinite;
 }
-=======
->>>>>>> 183faa07570407baef279579a0894362c0f78362
