@@ -128,11 +128,11 @@ export default function ComparisonSection() {
  gap-4 items-start"
       >
         {/* Left Feature Column */}
-        <div className="space-y-4 text-gray-400">
+        <div className="space-y-4 text-gray-400 flex flex-col items-center sm:items-start">
           {features.map((feature, index) => (
             <div
               key={index}
-              className="text-[#a7a8aa] text-sm font-semibold from-[#1B0A21] to-[#000000] border-b border-[#1C0B22] pb-3 last:border-none"
+              className="text-[#a7a8aa] text-sm font-semibold border-b border-[#1C0B22] pb-3 last:border-none text-center sm:text-left"
             >
               {feature}
             </div>
@@ -187,11 +187,10 @@ export default function ComparisonSection() {
             ) : (
               // Normal boxes
               <div
-                className={`bg-gradient-to-br ${
-                  index % 2 === 0
-                    ? "from-[#1B0A21] to-[#000000] border border-[#1C0B22]"
-                    : "from-[#000000] to-[#1B0A21] border border-transparent"
-                } rounded-2xl p-8 shadow-lg flex flex-col items-center`}
+                className={`bg-gradient-to-br ${index % 2 === 0
+                  ? "from-[#1B0A21] to-[#000000] border border-[#1C0B22]"
+                  : "from-[#000000] to-[#1B0A21] border border-transparent"
+                  } rounded-2xl p-8 shadow-lg flex flex-col items-center`}
               >
                 <h3 className="text-2xl font-semibold mb-4 text-center">
                   {plan.name}

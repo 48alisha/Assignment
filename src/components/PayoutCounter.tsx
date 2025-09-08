@@ -1,14 +1,31 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useInView } from "react-intersection-observer";
+import { motion, useScroll, useTransform } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { ArrowUpRight } from "lucide-react";
 
 export default function PayoutCounter() {
   const [count, setCount] = useState(999152);
-  const { ref, inView } = useInView({
+  const { ref: counterRef, inView } = useInView({
     triggerOnce: false,
     threshold: 0.2,
   });
+
+  const sectionRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start end", "center start"], // Start animating when section enters
+  });
+
+  // Line 1 (We've Paid Out Over)
+  const line1Opacity = useTransform(scrollYProgress, [0, 0.2, 0.4], [0, 1, 1]);
+  const line1Blur = useTransform(scrollYProgress, [0, 0.2, 0.4], ["10px", "0px", "0px"]);
+  const line1Y = useTransform(scrollYProgress, [0, 0.2, 0.4], [30, 0, 0]);
+
+  // Line 2 ($1M to Traders)
+  const line2Opacity = useTransform(scrollYProgress, [0.25, 0.45, 0.6], [0, 1, 1]);
+  const line2Blur = useTransform(scrollYProgress, [0.25, 0.45, 0.6], ["10px", "0px", "0px"]);
+  const line2Y = useTransform(scrollYProgress, [0.25, 0.45, 0.6], [30, 0, 0]);
 
   const targetCount = 1000000;
 
@@ -29,7 +46,10 @@ export default function PayoutCounter() {
   }, [inView]);
 
   return (
-    <section className="relative w-full min-h-screen flex items-center justify-center overflow-hidden bg-black text-white">
+    <section
+      ref={sectionRef}
+      className="relative w-full min-h-screen flex items-center justify-center overflow-hidden bg-black text-white"
+    >
       {/* Video Background */}
       <div className="w-full h-[60%] overflow-hidden absolute bottom-0">
         <video
@@ -46,7 +66,6 @@ export default function PayoutCounter() {
           />
         </video>
 
-        {/* Top fade overlay */}
         <div
           className="absolute top-0 left-0 w-full h-full pointer-events-none"
           style={{
@@ -62,8 +81,28 @@ export default function PayoutCounter() {
             Payouts
           </p>
 
+          {/* Animated Heading (Scroll-Based) */}
           <h2 className="text-4xl md:text-5xl font-bold mb-6 leading-tight">
-            We've Paid Out Over <br></br>$1M to Traders
+            <motion.span
+              style={{
+                opacity: line1Opacity,
+                filter: line1Blur,
+                y: line1Y,
+              }}
+              className="block"
+            >
+              We've Paid Out Over
+            </motion.span>
+            <motion.span
+              style={{
+                opacity: line2Opacity,
+                filter: line2Blur,
+                y: line2Y,
+              }}
+              className="block"
+            >
+              $1M to Traders
+            </motion.span>
           </h2>
 
           <p className="text-[#C0C1C3] font-light">
@@ -71,22 +110,35 @@ export default function PayoutCounter() {
           </p>
 
           {/* Counter */}
-          <div suppressHydrationWarning
-            ref={ref}
-            className="text-[100px] md:text-[140px] lg:text-[180px] 2xl:text-[220px] font-semibold bg-gradient-to-r from-purple-400 to-pink-400 text-transparent bg-clip-text"
-          >
-            ${count.toLocaleString()}+
-          </div>
+          <div
+  suppressHydrationWarning
+  ref={counterRef}
+  className="
+    text-[48px]       /* Mobile */
+    sm:text-[64px]    /* Small devices */
+    md:text-[80px]    /* Tablets */
+    lg:text-[140px]   /* Laptops */
+    xl:text-[160px]   /* Large screens */
+    2xl:text-[180px]  /* Extra large */
+    font-semibold 
+    bg-gradient-to-r from-purple-400 to-pink-400 
+    text-transparent bg-clip-text
+    leading-none text-center
+  "
+>
+  ${count.toLocaleString()}+
+</div>
 
           <div className="flex justify-center items-center pt-8">
-            {/* Rotating border wrapper */}
             <div className="relative p-[1px] rounded-2xl overflow-hidden">
-              {/* Rotating gradient line */}
               <div className="absolute inset-0 rounded-2xl animate-spin-slow bg-[conic-gradient(from_0deg,transparent,#ffffff,transparent)]" />
-
-              {/* Button content */}
-              <Button className="relative z-10 py-4 px-6 text-md rounded-2xl bg-black shadow-lg text-white min-w-[180px] min-h-[45px] flex items-center justify-center">
-                Are you Next? <ArrowUpRight className="ml-2 h-6 w-6" />
+              <Button
+                className="group relative z-10 py-4 px-6 text-md rounded-2xl bg-black shadow-lg text-white min-w-[180px] min-h-[45px] flex items-center justify-center cursor-pointer"
+              >
+                Are you Next?
+                <ArrowUpRight
+                  className="ml-2 h-6 w-6 transition-transform duration-300 ease-in-out group-hover:rotate-[45deg]"
+                />
               </Button>
             </div>
           </div>

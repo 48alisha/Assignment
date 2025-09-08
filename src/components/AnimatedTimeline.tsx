@@ -1,3 +1,5 @@
+
+
 "use client";
 
 import { motion, useScroll, useTransform, useInView } from "framer-motion";
@@ -39,7 +41,7 @@ const AnimatedTimeline = () => {
   const lineHeight = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
 
   return (
-    <div className="min-h-screen bg-black pt-20 flex flex-col items-center">
+    <div className="min-h-screen pt-20 flex flex-col items-center">
       <div className="w-full max-w-4xl mx-auto px-6 text-center mb-6">
         <motion.span
           className="inline-block text-gray-300 text-sm font-light border border-blue-500/20 rounded-full py-2 px-6 mb-6"
@@ -99,16 +101,12 @@ const AnimatedTimeline = () => {
                   {/* Step number circle */}
                   <div className="absolute left-1/2 -translate-x-1/2 -translate-y-1/2 top-1/2 z-10">
                     <div
-                      className={`w-10 h-10 rounded-full flex items-center justify-center transition-colors duration-300`}
+                      className={`w-14 h-14 bg-[#E072DC] rounded-full flex items-center justify-center transition-all duration-300 ${isActive || isCompleted ? "scale-110" : "scale-100"
+                        }`}
                     >
                       <span
-                        className={`text-5xl font-medium transition-colors duration-300 ${
-                          isActive
-                            ? "text-white"
-                            : isCompleted
-                            ? "text-white"
-                            : "text-[#13141D]"
-                        }`}
+                        className={`text-3xl font-medium bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent transition-all duration-300 ${isActive || isCompleted ? "text-white" : ""
+                          }`}
                       >
                         {String(step.id).padStart(2, "0")}
                       </span>
@@ -116,16 +114,14 @@ const AnimatedTimeline = () => {
                   </div>
 
                   {/* Step content */}
-                  <div className={`relative bg-black py-6`}>
+                  <div className={`relative`}>
                     <div
-                      className={`rounded-lg w-[42%] ${
-                        isEven ? "ml-auto" : "mr-[10%]"
-                      }`}
+                      className={`rounded-lg w-[42%] ${isEven ? "ml-auto" : "mr-[10%]"
+                        }`}
                     >
                       <div
-                        className={`flex flex-col ${
-                          isEven ? "items-start" : "items-end"
-                        }`}
+                        className={`flex flex-col ${isEven ? "items-start" : "items-end"
+                          }`}
                       >
                         <p className="mb-1 text-lg text-[#C0C1C3]">
                           {step.step}
