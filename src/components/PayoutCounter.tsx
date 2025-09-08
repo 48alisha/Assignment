@@ -91,7 +91,7 @@ export default function PayoutCounter() {
               }}
               className="block"
             >
-              We've Paid Out Over
+              We&apos;ve Paid Out Over
             </motion.span>
             <motion.span
               style={{
