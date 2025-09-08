@@ -1,8 +1,7 @@
-
-
 "use client";
 
 import { motion, useMotionValue, useTransform, useScroll } from "framer-motion";
+import Image from "next/image";
 import { useRef } from "react";
 
 export default function QRSection() {
@@ -84,9 +83,12 @@ export default function QRSection() {
           transition={{ type: "spring", stiffness: 250, damping: 25 }}
         >
           <div className="bg-[#666666] p-2 rounded-xl shadow-lg">
-            <img
+            <Image
               src="https://cdn.britannica.com/17/155017-050-9AC96FC8/Example-QR-code.jpg"
               alt="QR Code"
+              width={208}
+              height={208}
+              priority
               className="w-40 h-40 md:w-44 md:h-44 lg:w-48 lg:h-48 xl:w-52 xl:h-52 rounded-lg"
             />
           </div>
@@ -94,14 +96,12 @@ export default function QRSection() {
 
         {/* App Store buttons */}
         <div className="absolute z-10 flex gap-4 mt-6 bottom-30">
-          <img
-            decoding="async"
-            loading="lazy"
-            width="150"
-            height="50"
+          <Image
             src="https://framerusercontent.com/images/VK7tmBzTRU7cEgNp1WcXO7kHYuA.png"
             alt="App Store and Google Play"
-            className="h-12 object-contain"
+            width={150}
+            height={50}
+            className="h-12 w-auto object-contain"
           />
         </div>
       </div>
