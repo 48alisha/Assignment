@@ -1,32 +1,37 @@
-
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { useRef } from "react";
 
 export default function QRSection() {
-  return (
-    <div className="min-h-screen flex items-center justify-center bg-black text-white relative overflow-hidden">
-      
-      {/* Moving Text in background */}
-      <motion.div
-        className="absolute whitespace-nowrap text-6xl  text-white  "
-        animate={{ x: ["100%", "-100%"] }}
-        transition={{
-          repeat: Infinity,
-          duration: 12,
-          ease: "linear",
-        }}
-      >
-        Trade Anymore <span className="text-purple-400 font-size[16px]">, AnyWhere</span>
-      </motion.div>
+  const sectionRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start end", "end start"],
+  });
 
-      {/* QR Code on top */}
-      <div className="relative z-10 bg-gray-900 p-6 rounded-xl shadow-lg">
-        <img
-          src="https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=DummyQR"
-          alt="QR Code"
-          className="w-34 h-34"
-        />
+  const x = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
+
+  return (
+    <div
+      ref={sectionRef}
+      className="h-[70%] flex items-center justify-center bg-black text-white relative overflow-hidden"
+    >
+      <div className="sticky top-0 h-full w-full flex items-center justify-center overflow-hidden">
+        <motion.div
+          className="whitespace-nowrap text-[120px] font-semibold text-white"
+          style={{ x }}
+        >
+          Trade Anymore <span className="text-purple-400">, AnyWhere</span>
+        </motion.div>
+
+        <div className="absolute z-10 bg-[#666666] p-2 rounded-xl shadow-lg">
+          <img
+            src="https://cdn.britannica.com/17/155017-050-9AC96FC8/Example-QR-code.jpg"
+            alt="QR Code"
+            className="w-52 h-52"
+          />
+        </div>
       </div>
     </div>
   );

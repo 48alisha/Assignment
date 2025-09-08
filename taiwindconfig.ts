@@ -8,6 +8,14 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        "Roboto-style": ["Roboto Condensed", "sans-serif"],
+      },
+      fontWeight: {
+        "Roboto-regular": "400",
+        "Roboto-semibold": "700",
+        "Roboto-bold": "900",
+      },
       keyframes: {
         slide: {
           "0%": { transform: "translateX(-100%)" },
@@ -20,6 +28,6 @@ const config: Config = {
     },
   },
   plugins: [],
-}
+};
 
 export default config;
